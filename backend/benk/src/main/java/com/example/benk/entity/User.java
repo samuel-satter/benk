@@ -2,6 +2,7 @@ package com.example.benk.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 @Table(name = "user")
 @Entity
 public class User {
@@ -24,7 +26,9 @@ public class User {
     private String password;
     private String email;
     private String origin;
+    private String accountNumber;
     private BigDecimal balance;
+    private String status;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
