@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {TextField, Button, Link} from '@mui/material';
 import { invoke } from '@tauri-apps/api/tauri'
+import CreateAccountPage from "./CreateAccountPage";
 
 const LoginPage: React.FC = () => {
     const[email, setEmail] = useState('');
@@ -12,16 +13,6 @@ const LoginPage: React.FC = () => {
             console.log(response);
             //TODO handle successfull login attempt by redirecting 
         } catch(error) {    
-            console.log(error);
-        }
-    };
-
-    const handleCreateAccount = async () => {
-        try {
-            const response = await invoke('create_account', {email, password});
-            console.log(response)
-            //TODO handle successfull create_account attempt by redirecting to back to main page 
-        } catch (error) {
             console.log(error);
         }
     };
@@ -48,7 +39,7 @@ const LoginPage: React.FC = () => {
           </form>
           <p>
             Don't have an account?{' '}
-            <Link href="#" onClick={handleCreateAccount}>
+            <Link href="#" onClick={CreateAccountPage}>
               Create one
             </Link>
           </p>
