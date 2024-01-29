@@ -22,9 +22,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String username;
+    private String firstName;
+    private String lastName;
     private String password;
     private String email;
+    private String phoneNumber;
     private String origin;
     private String accountNumber;
     private BigDecimal balance;

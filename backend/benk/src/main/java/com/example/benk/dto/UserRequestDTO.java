@@ -10,9 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UserRequestDTO {
-    private String username;
+    private String firstName;
+    private String lastName;
     private String origin;
     private String email;
     private String accountNumber;
+    private String phoneNumber;
     private String status;
 }

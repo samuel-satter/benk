@@ -16,6 +16,7 @@ public class UserServiceImpl implements UserService {
     public static final String ACCOUNT_EXISTS_CODE = "409";
     public static final String ACCOUNT_CREATED_MESSAGE = "Account has successfully been exists";
     public static final String ACCOUNT_CREATED_CODE = "200";
+    public static final int RANGE = 8;
     private final UserRepository userRepository;
 
     @Autowired
@@ -33,11 +34,12 @@ public class UserServiceImpl implements UserService {
                   .build();
         }
         User newUser = User.builder()
-                .username(userRequestDTO.getUsername())
+                .firstName(userRequestDTO.getFirstName())
+                .lastName(userRequestDTO.getLastName())
                 .origin(userRequestDTO.getOrigin())
-                .origin(userRequestDTO.getOrigin())
+                .phoneNumber(userRequestDTO.getPhoneNumber())
                 .email(userRequestDTO.getEmail())
-                .accountNumber(AccountUtils.generateAccountNumber(8))
+                .accountNumber(AccountUtils.generateAccountNumber(RANGE))
                 .status(userRequestDTO.getStatus())
                 .build();
         User savedUser = userRepository.save(newUser);
@@ -45,7 +47,8 @@ public class UserServiceImpl implements UserService {
                 .responseCode(ACCOUNT_CREATED_CODE)
                 .responseMessage(ACCOUNT_CREATED_MESSAGE)
                 .accountInfoDTO(AccountInfoDTO.builder()
-                        .accountUsername(savedUser.getUsername())
+                        .accountFirstName(savedUser.getFirstName())
+                        .accountLastName(savedUser.getLastName())
                         .accountBalance(savedUser.getBalance())
                         .accountNumber(savedUser.getAccountNumber())
                         .build())
