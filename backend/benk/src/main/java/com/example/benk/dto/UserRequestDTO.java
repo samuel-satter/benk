@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UserRequestDTO {
+    private Boolean isAdmin;
     private String firstName;
     private String lastName;
     private String origin;

@@ -12,10 +12,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    public static final String ACCOUNT_EXISTS_MESSAGE = "Account already exists";
-    public static final String ACCOUNT_EXISTS_CODE = "409";
+    public static final String OK_CODE = "200";
+    public static final String USER_IS_ADMIN_MESSAGE = "User is admin";
     public static final String ACCOUNT_CREATED_MESSAGE = "Account has successfully been exists";
-    public static final String ACCOUNT_CREATED_CODE = "200";
+    
+    public static final String ACCOUNT_EXISTS_MESSAGE = "Account already exists";
+    public static final String USER_IS_NOT_ADMIN_MESSAGE = "User is not admin";
+    
+    public static final String ACCOUNT_EXISTS_CODE = "409";
+    public static final String USER_IS_NOT_ADMIN_CODE = "401";
+    
     public static final int RANGE = 8;
     private final UserRepository userRepository;
 
@@ -34,6 +40,7 @@ public class UserServiceImpl implements UserService {
                   .build();
         }
         User newUser = User.builder()
+                .isAdmin(userRequestDTO.getIsAdmin())
                 .firstName(userRequestDTO.getFirstName())
                 .lastName(userRequestDTO.getLastName())
                 .origin(userRequestDTO.getOrigin())
@@ -44,14 +51,26 @@ public class UserServiceImpl implements UserService {
                 .build();
         User savedUser = userRepository.save(newUser);
         return ResponseDTO.builder()
-                .responseCode(ACCOUNT_CREATED_CODE)
+                .responseCode(OK_CODE)
                 .responseMessage(ACCOUNT_CREATED_MESSAGE)
                 .accountInfoDTO(AccountInfoDTO.builder()
+                        .isAdmin(savedUser.getIsAdmin())
                         .accountFirstName(savedUser.getFirstName())
                         .accountLastName(savedUser.getLastName())
                         .accountBalance(savedUser.getBalance())
                         .accountNumber(savedUser.getAccountNumber())
                         .build())
                 .build();
+    }
+
+    public ResponseDTO isUserAdmin(UserRequestDTO userRequestDTO) {
+        if(!userRepository.isUserAdmin(userRequestDTO.getIsAdmin())) {
+            return ResponseDTO.builder()
+            .responseCode(USER_IS_NOT_ADMIN_CODE)
+            .responseMessage(USER_IS_NOT_ADMIN_MESSAGE)
+            .accountInfoDTO(null)
+            .build();
+        }
+        return ResponseDTO.builder().build();
     }
 }

@@ -25,4 +25,8 @@ public class UserController {
     public User saveUser(@RequestBody User user) {
         return userRepository.save(user);
     }
+    @GetMapping("/isAdmin")
+    public Boolean isAdmin(@RequestBody Boolean isAdmin) {
+        return userRepository.isUserAdmin(isAdmin);
+    }
 }
