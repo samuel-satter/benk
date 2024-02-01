@@ -2,9 +2,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod user;
-use std::error::Error;
 
-use serde::{Serialize, Serializer};
+use serde::Serialize;
 use user::User;
 
 
