@@ -5,4 +5,5 @@ import com.example.benk.dto.UserRequestDTO;
 
 public interface UserService {
     ResponseDTO createAccount(UserRequestDTO userRequestDTO);
+    boolean checkIfUserIsAdmin(long id);
 }

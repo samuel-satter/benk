@@ -6,6 +6,9 @@ import com.example.benk.dto.UserRequestDTO;
 import com.example.benk.entity.User;
 import com.example.benk.repository.UserRepository;
 import com.example.benk.utils.AccountUtils;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,14 +66,13 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-    public ResponseDTO isUserAdmin(UserRequestDTO userRequestDTO) {
-        if(!userRepository.isUserAdmin(userRequestDTO.getIsAdmin())) {
-            return ResponseDTO.builder()
-            .responseCode(USER_IS_NOT_ADMIN_CODE)
-            .responseMessage(USER_IS_NOT_ADMIN_MESSAGE)
-            .accountInfoDTO(null)
-            .build();
+    @Override
+    public boolean checkIfUserIsAdmin(long id) {
+        Optional<User> user = userRepository.findById(id);  
+        if(user.isPresent() && user.get().getIsAdmin()) {
+            return true;
+        } else {
+            return false;
         }
-        return ResponseDTO.builder().build();
     }
 }
