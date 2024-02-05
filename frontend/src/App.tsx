@@ -3,28 +3,89 @@
 // import "./App.css";
 
 import React from 'react';
-import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LoginPage from './login/Login';
 import CreateAccountPage from './create_account/CreateAccount';
 import Home from './admin/pages/home/Home';
 import Users from './admin/pages/users/Users';
 import Products from './admin/pages/products/Products';
+import Navbar from './admin/components/navbar/Navbar';
+import Menu from './admin/components/menu/Menu';
+import Footer from './admin/components/footer/Footer';
+import Login from './Login';
 
-const App: React.FC = () => {
- return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/create_account" element={<CreateAccountPage />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/products" element={<Products />} />
-      </Routes>
-    </Router>
- );
-};
+function App() {
+  const Layout = () => {
+    return (
+      <div className="main">
+        <Navbar />
+        <div className="container">
+          <div className="menuContainer">
+            <Menu />
+          </div>
+          <div className="contentContainer">
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  };
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/users",
+          element: <Users />,
+        },
+        {
+          path: "/products",
+          element: <Products />,
+        },
+        {
+          path: "/users/:id",
+          element: <Users />,
+        },
+        {
+          path: "/products/:id",
+          element: <Products />,
+        },
+      ],
+    },
+    {
+      path: "/login",
+      element: <Login onLogin={function (role: string): void {
+        throw new Error('Function not implemented.');
+      } } />,
+    },
+  ]);
+  return <RouterProvider router={router} />;
+}
 
 export default App;
+
+
+// const App: React.FC = () => {
+//  return (
+//     <Router>
+//       <Routes>
+//         <Route path="/" element={<LoginPage />} />
+//         <Route path="/create_account" element={<CreateAccountPage />} />
+//         <Route path="/home" element={<Home />} />
+//         <Route path="/users" element={<Users />} />
+//         <Route path="/products" element={<Products />} />
+//       </Routes>
+//     </Router>
+//  );
+// };
+
+// export default App;
 
 
 

@@ -7,6 +7,7 @@ interface LoginProps{
     return (
        <div>
          {/* Your sign-up form goes here */}
+         Home screen
        </div>
     );
    };
