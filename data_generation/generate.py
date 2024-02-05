@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 fake = Faker()
 
 def generate_user():
-    isAdmin = random.choice([True, False])
+    isAdmin = random.random() < 0.02 
     firstName = fake.first_name()
     lastName = fake.last_name()
     password = fake.password()
