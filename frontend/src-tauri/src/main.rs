@@ -6,8 +6,6 @@ mod user;
 use serde::Serialize;
 use user::User;
 
-
-
 #[derive(Serialize)]
 struct BoxError {
     message: String,
@@ -30,6 +28,7 @@ fn greet(name: &str) -> String {
 async fn get_all_users() -> Result<Vec<User>, BoxError> {
     let client = reqwest::Client::new();
     let url = "http://localhost:8080/user/findAll";
+
     let response = match client.get(url).send().await {
         Ok(resp) => resp,
         Err(e) => return Err(BoxError { message: e.to_string() }),
