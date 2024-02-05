@@ -3,6 +3,8 @@ from faker import Faker
 import random
 from datetime import datetime, timedelta
 
+#this is used to generate a dataset with random accounts
+
 fake = Faker()
 
 def generate_user():
