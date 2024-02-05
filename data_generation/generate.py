@@ -17,7 +17,7 @@ def generate_user():
     origin = fake.country()
     accountNumber = fake.iban()
     balance = round(random.uniform(1000, 100000), 2)
-    status = random.choice(["ACTIVE", "INACTIVE"])
+    status = random.random() < 0.95
     createdAt = fake.date_time_this_decade()
     updatedAt = createdAt + timedelta(days=random.randint(1, 30))
     
