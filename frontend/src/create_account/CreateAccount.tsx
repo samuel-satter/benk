@@ -6,7 +6,7 @@ interface CreateAccountProps {
     // Your component implementation
     return (
        <div>
-        
+        create account
        </div>
     );
    };

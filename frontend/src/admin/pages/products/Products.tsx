@@ -1,8 +1,8 @@
-import "./products.css"
+import "./products.scss"
 
 const Products = () => {
     return (
-        <div className="products"></div>
+        <div className="products">products</div>
     )
 }
 

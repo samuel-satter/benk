@@ -1,8 +1,8 @@
-import "./users.css"
+import "./users.scss"
 
 const Users = () => {
     return (
-        <div className="users"></div>
+        <div className="users">users</div>
     )
 }
 

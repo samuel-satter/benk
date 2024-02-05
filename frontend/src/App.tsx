@@ -3,16 +3,13 @@
 // import "./App.css";
 
 import React from 'react';
-import { HashRouter as Router, Route, Routes, createBrowserRouter, RouterProvider } from 'react-router-dom';
-import LoginPage from './login/Login';
-import CreateAccountPage from './create_account/CreateAccount';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from './admin/pages/home/Home';
 import Users from './admin/pages/users/Users';
 import Products from './admin/pages/products/Products';
 import Navbar from './admin/components/navbar/Navbar';
 import Menu from './admin/components/menu/Menu';
 import Footer from './admin/components/footer/Footer';
-import Login from './Login';
 
 function App() {
   const Layout = () => {
@@ -48,22 +45,22 @@ function App() {
           path: "/products",
           element: <Products />,
         },
-        {
-          path: "/users/:id",
-          element: <Users />,
-        },
-        {
-          path: "/products/:id",
-          element: <Products />,
-        },
+        // {
+        //   path: "/users/:id",
+        //   element: <Users />,
+        // },
+        // {
+        //   path: "/products/:id",
+        //   element: <Products />,
+        // },
       ],
     },
-    {
-      path: "/login",
-      element: <Login onLogin={function (role: string): void {
-        throw new Error('Function not implemented.');
-      } } />,
-    },
+    // {
+    //   path: "/login",
+    //   element: <Login onLogin={function (role: string): void {
+    //     throw new Error('Function not implemented.');
+    //   } } />,
+    // },
   ]);
   return <RouterProvider router={router} />;
 }
