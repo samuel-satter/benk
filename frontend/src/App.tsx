@@ -2,8 +2,7 @@
 // import { invoke } from "@tauri-apps/api/tauri";
 // import "./App.css";
 
-import React from 'react';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Home from './admin/pages/home/Home';
 import Users from './admin/pages/users/Users';
 import Products from './admin/pages/products/Products';
@@ -21,6 +20,7 @@ function App() {
             <Menu />
           </div>
           <div className="contentContainer">
+            <Outlet />
           </div>
         </div>
         <Footer />
