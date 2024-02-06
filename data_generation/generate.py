@@ -8,24 +8,24 @@ from datetime import datetime, timedelta
 fake = Faker()
 
 def generate_user():
-    isAdmin = random.random() < 0.02 
+    isAdmin = random.choices([0, 1], weights=[98, 2])[0]
     firstName = fake.first_name()
     lastName = fake.last_name()
-    password = fake.password()
+    pw = fake.password()
     email = fake.email()
     phoneNumber = fake.phone_number()
     origin = fake.country()
     accountNumber = fake.iban()
     balance = round(random.uniform(1000, 100000), 2)
-    status = random.random() < 0.95
+    status = random.choices([0, 1], weights=[5, 95])[0]
     createdAt = fake.date_time_this_decade()
     updatedAt = createdAt + timedelta(days=random.randint(1, 30))
     
-    return [isAdmin, firstName, lastName, password, email, phoneNumber, origin, 
+    return [isAdmin, firstName, lastName, pw, email, phoneNumber, origin, 
             accountNumber, balance, status, createdAt, updatedAt]
     
 with open('mock_user_data.csv', 'w', newline='') as csvfile:
-    fieldnames = ['isAdmin', 'firstName', 'lastName', 'password', 'email', 'phoneNumber', 'origin', 
+    fieldnames = ['isAdmin', 'firstName', 'lastName', 'pw', 'email', 'phoneNumber', 'origin', 
             'accountNumber', 'balance', 'status', 'createdAt', 'updatedAt']
     writer = csv.writer(csvfile)
     writer.writerow(fieldnames)
@@ -33,3 +33,10 @@ with open('mock_user_data.csv', 'w', newline='') as csvfile:
     for _ in range (200):
         user_data = generate_user()
         writer.writerow(user_data)
+        
+#LOAD DATA local INFILE 'C:\Users\samue\Documents\dumps\mock_user_data.csv'
+#INTO TABLE users
+#FIELDS terminated by ','
+#LINES TERMINATED BY '\n'
+#ignore 1 rows 
+#(id, isAdmin, firstName, lastName, password, email, phoneNumber, origin, accountNumber, balance, createdAt, updatedAt);
