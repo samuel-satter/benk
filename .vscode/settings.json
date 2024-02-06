@@ -1,5 +1,8 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
-    "rust-analyzer.linkedProjects": ["frontend/src-tauri/Cargo.toml"]
+    "rust-analyzer.linkedProjects": [
+        "frontend/src-tauri/Cargo.toml"
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 
 }

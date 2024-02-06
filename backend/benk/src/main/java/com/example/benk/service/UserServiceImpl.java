@@ -9,6 +9,7 @@ import com.example.benk.utils.AccountUtils;
 
 import java.util.Optional;
 
+import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
     public static final String OK_CODE = "200";
     public static final String USER_IS_ADMIN_MESSAGE = "User is admin";
-    public static final String ACCOUNT_CREATED_MESSAGE = "Account has successfully been exists";
+    public static final String ACCOUNT_CREATED_MESSAGE = "Account has successfully been created";
     
     public static final String ACCOUNT_EXISTS_MESSAGE = "Account already exists";
     public static final String USER_IS_NOT_ADMIN_MESSAGE = "User is not admin";
@@ -52,6 +53,7 @@ public class UserServiceImpl implements UserService {
                 .accountNumber(AccountUtils.generateAccountNumber(RANGE))
                 .status(userRequestDTO.getStatus())
                 .build();
+        @SuppressWarnings("unchecked")
         User savedUser = userRepository.save(newUser);
         return ResponseDTO.builder()
                 .responseCode(OK_CODE)
