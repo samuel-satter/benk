@@ -33,15 +33,15 @@ public class JwtUtil {
         Key signingKey = new SecretKeySpec(secret, signatureAlgorithm.getJcaName());
 
         JwtBuilder jwtBuilder = Jwts.builder()
-                .setId(jwtConfig.getId())
-                .setIssuedAt(now)
-                .setSubject(jwtConfig.getSubject())
-                .setIssuer(jwtConfig.getIssuer())
-                .setClaims(claims)
+                .id(jwtConfig.getId())
+                .issuedAt(now)
+                .subject(jwtConfig.getSubject())
+                .issuer(jwtConfig.getIssuer())
+                .claims(claims)
                 .signWith(signingKey, signatureAlgorithm);
 
         if (jwtConfig.getTimeToLive() > 0) {
-            jwtBuilder.setExpiration(new Date(nowInMillis + jwtConfig.getTimeToLive()));
+            jwtBuilder.expiration(new Date(nowInMillis + jwtConfig.getTimeToLive()));
         }
 
         return jwtBuilder.compact();
@@ -51,8 +51,8 @@ public class JwtUtil {
         return Jwts.parser()
                 .setSigningKey(Base64.getEncoder().encode(jwtConfig.getHmacSecret().getBytes()))
                 .build()
-                .parseClaimsJws(jwt)
-                .getBody();
+                .parseSignedClaims(jwt)
+                .getPayload();
     }
 
 }
