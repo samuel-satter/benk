@@ -9,7 +9,6 @@ import com.example.benk.utils.AccountUtils;
 
 import java.util.Optional;
 
-import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +52,6 @@ public class UserServiceImpl implements UserService {
                 .accountNumber(AccountUtils.generateAccountNumber(RANGE))
                 .status(userRequestDTO.getStatus())
                 .build();
-        @SuppressWarnings("unchecked")
         User savedUser = userRepository.save(newUser);
         return ResponseDTO.builder()
                 .responseCode(OK_CODE)
