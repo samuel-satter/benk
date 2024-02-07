@@ -41,6 +41,7 @@ function App() {
           path: "/users",
           element: <Users />,
         },
+        //TODO change products to to more appropriate name (Finance) or something idk :100:
         {
           path: "/products",
           element: <Products />,
@@ -55,6 +56,7 @@ function App() {
         // },
       ],
     },
+    //TODO use login path on startup when ready
     // {
     //   path: "/login",
     //   element: <Login onLogin={function (role: string): void {
