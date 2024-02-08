@@ -1,9 +1,9 @@
 package com.example.benk.service;
 
+import org.springframework.stereotype.Service;
+
 import com.example.benk.dto.ResponseDTO;
 import com.example.benk.dto.UserRequestDTO;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
