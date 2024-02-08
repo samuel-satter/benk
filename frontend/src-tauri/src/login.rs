@@ -12,7 +12,9 @@ async fn command_name(state: tauri::State<'_, MyState>) -> Result<(), String> {
 }
 
 fn login(email: String, password: String) -> Result<String, String> {
-    Ok(format!("user successfully logged in with email: {}"), email)
+    Ok(format!("user successfully logged in with email: {}"), email);
+
+    let client = reqwest::CLient::new();
 }
 
 fn create_account(email: String, password: String) -> Result<String, String> {

@@ -8,12 +8,19 @@ import com.example.benk.repository.UserRepository;
 import com.example.benk.utils.AccountUtils;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserDetailsService, UserService {
 
     public static final String OK_CODE = "200";
     public static final String USER_IS_ADMIN_MESSAGE = "User is admin";
@@ -26,6 +33,8 @@ public class UserServiceImpl implements UserService {
     public static final String USER_IS_NOT_ADMIN_CODE = "401";
     
     public static final int RANGE = 8;
+
+
     private final UserRepository userRepository;
 
     @Autowired
@@ -33,7 +42,21 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    @Override
+    public UserDetails loadByEmail(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User not found " + email));
+
+        Set<GrantedAuthority> authoritySet = user
+                .getRoles()
+                .stream()
+                .map((role) -> new SimpleGrantedAuthority(role.getEmail())).collect(Collectors.toSet());
+
+        return new org.springframework.security.core.userdetails.User(user.getEmail(),
+                user.getPassword(),
+                authoritySet);
+    }
+
     public ResponseDTO createAccount(UserRequestDTO userRequestDTO) {
         if (userRepository.existsByEmail(userRequestDTO.getEmail())) {
          return ResponseDTO.builder()
@@ -66,7 +89,6 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-    @Override
     public boolean checkIfUserIsAdmin(long id) {
         Optional<User> user = userRepository.findById(id);  
         if(user.isPresent() && user.get().getIsAdmin()) {
@@ -74,5 +96,10 @@ public class UserServiceImpl implements UserService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
     }
 }

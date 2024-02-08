@@ -23,14 +23,13 @@ public class JwtUtil {
     }
 
     public String createJwt(Map<String, Object> claims) {
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
         long nowInMillis = System.currentTimeMillis();
         Date now = new Date(nowInMillis);
 
         byte[] secret = Base64.getEncoder().encode(jwtConfig.getHmacSecret().getBytes());
 
-        Key signingKey = new SecretKeySpec(secret, signatureAlgorithm.getJcaName());
+        Key signingKey = new SecretKeySpec(secret, Jwts.SIG.HS256.toString());
 
         JwtBuilder jwtBuilder = Jwts.builder()
                 .id(jwtConfig.getId())
@@ -38,7 +37,7 @@ public class JwtUtil {
                 .subject(jwtConfig.getSubject())
                 .issuer(jwtConfig.getIssuer())
                 .claims(claims)
-                .signWith(signingKey, signatureAlgorithm);
+                .signWith(signingKey);
 
         if (jwtConfig.getTimeToLive() > 0) {
             jwtBuilder.expiration(new Date(nowInMillis + jwtConfig.getTimeToLive()));

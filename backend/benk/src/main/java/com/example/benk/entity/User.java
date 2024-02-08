@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,7 +17,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 @NoArgsConstructor
 @Data
 @Builder
-@Table(name = "user")
+@Table(name = "users", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"email"})
+})
 @Entity
 public class User {
     @Id
@@ -36,4 +39,10 @@ public class User {
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", 
+        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+        private Set<Role> roles;
 }
