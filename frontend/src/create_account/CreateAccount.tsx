@@ -2,7 +2,7 @@ interface CreateAccountProps {
     // Define any props that your component expects
    }
    
-   const CreateAccount: React.FC<CreateAccountProps> = (props) => {
+   const CreateAccount: React.FC<CreateAccountProps> = () => {
     // Your component implementation
     return (
        <div>

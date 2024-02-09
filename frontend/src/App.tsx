@@ -9,12 +9,14 @@ import Products from './admin/pages/products/Products';
 import Navbar from './admin/components/navbar/Navbar';
 import Menu from './admin/components/menu/Menu';
 import Footer from './admin/components/footer/Footer';
+// import Login from './login/Login';
 
 function App() {
+
   const Layout = () => {
     return (
       <div className="main">
-        <Navbar />
+        <Navbar/> 
         <div className="container">
           <div className="menuContainer">
             <Menu />
@@ -29,6 +31,10 @@ function App() {
   };
 
   const router = createBrowserRouter([
+    // {
+    //   path: "/",
+    //   element: <Login />,
+    // },
     {
       path: "/",
       element: <Layout />,
@@ -41,11 +47,12 @@ function App() {
           path: "/users",
           element: <Users />,
         },
-        //TODO change products to to more appropriate name (Finance) or something idk :100:
+         //TODO change products to to more appropriate name (Finance) or something idk :100:
         {
           path: "/products",
           element: <Products />,
         },
+       
         // {
         //   path: "/users/:id",
         //   element: <Users />,
@@ -56,6 +63,16 @@ function App() {
         // },
       ],
     },
+    // {
+    //   path: "/user",
+    //   element: <Layout />,
+    //   children: [
+    //     {
+    //       path: "/",
+    //       element: <Home />
+    //     }
+    //   ]
+    // }
     //TODO use login path on startup when ready
     // {
     //   path: "/login",

@@ -1,5 +1,5 @@
 import "./navbar.scss"
-import mainLogo from "../../../assets/logo.png"
+// import mainLogo from "../../../assets/logo.png"
 import logoOnly from "../../../assets/logo-only.png"
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
