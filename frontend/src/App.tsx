@@ -2,7 +2,7 @@
 // import { invoke } from "@tauri-apps/api/tauri";
 // import "./App.css";
 
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import Home from './admin/pages/home/Home';
 import Users from './admin/pages/users/Users';
 import Navbar from './admin/components/navbar/Navbar';
@@ -10,6 +10,8 @@ import Menu from './admin/components/menu/Menu';
 import Footer from './admin/components/footer/Footer';
 import Login from "../src/login/Login";
 import Finance from "./admin/pages/finance/finance";
+import CreateAccount from "../src/create-account/CreateAccount";
+import ForgotPassword from "../src/forgot-password/ForgotPassword";
 
 function App() {
 
@@ -29,59 +31,87 @@ function App() {
       </div>
     );
   };
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/create-account" element={<CreateAccount />}/>
+        <Route path="/forgot-password" element={<ForgotPassword />}/>
+        <Route path="/admin/*" element={<Layout />}>
+          <Route path="" element={<Home />} />
+          <Route path="users" element={<Users />} />
+          <Route path="finance" element={<Finance />} />
+          {/* ... other admin routes */}
+        </Route>
+        <Route path="/user/*" element={<Home />}>
+          {/* ... other user routes */}
+        </Route>
+        {/* ... other routes */}
+      </Routes>
+    </Router>
+  );
 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Login />,
-    },
-    {
-      path: "/admin",
-      element: <Layout />,
-      children: [
-        {
-          path: "/admin/",
-          element: <Home />,
-        },
-        {
-          path: "/admin/users",
-          element: <Users />,
-        },
-         //TODO change products to to more appropriate name (Finance) or something idk :100:
-        {
-          path: "/admin/finance",
-          element: <Finance />,
-        },
+  // const router = createBrowserRouter([
+  //   {
+  //     path: "/",
+  //     element: <Login />,
+  //     children: [
+  //       {
+  //         path: "create-account", 
+  //         element: <CreateAccount />
+  //       },
+  //       {
+  //         path: "forgot-password", 
+  //         element: <ForgotPassword />
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     path: "/admin",
+  //     element: <Layout />,
+  //     children: [
+  //       {
+  //         path: "/admin/",
+  //         element: <Home />,
+  //       },
+  //       {
+  //         path: "/admin/users",
+  //         element: <Users />,
+  //       },
+  //       {
+  //         path: "/admin/finance",
+  //         element: <Finance />,
+  //       },
        
-        // {
-        //   path: "/users/:id",
-        //   element: <Users />,
-        // },
-        // {
-        //   path: "/products/:id",
-        //   element: <Products />,
-        // },
-      ],
-    },
-    {
-      path: "/user",
-      element: <Layout />,
-      children: [
-        {
-          path: "/user/",
-          element: <Home />
-        }
-      ]
-    }
-    //TODO use login path on startup when ready
-    // {
-    //   path: "/login",
-    //   element: <Login onLogin={function (role: string): void {
-    //     throw new Error('Function not implemented.');
-    //   } } />,
-    // },
-  ]);
-  return <RouterProvider router={router} />;
+  //       {
+  //         path: "/users/:id",
+  //         element: <Users />,
+  //       },
+  //       {
+  //         path: "/products/:id",
+  //         element: <Finance />,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     path: "/user",
+  //     element: <Layout />,
+  //     children: [
+  //       {
+  //         path: "/user/",
+  //         element: <Home />
+  //       }
+  //     ]
+  //   },
+  //   // TODO use login path on startup when ready
+  //   {
+  //     path: "/login",
+  //     element: <Login onLogin={function (role: string): void {
+  //       throw new Error('Function not implemented.');
+  //     } } />,
+  //   },
+  // ]);
+  // return <RouterProvider router={router} />;
 }
 
 export default App;

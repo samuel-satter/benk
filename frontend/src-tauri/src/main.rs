@@ -4,6 +4,7 @@
 mod user;
 
 use serde::Serialize;
+use tauri_plugin_log::LogTarget;
 use user::User;
 
 #[derive(Serialize)]
@@ -119,6 +120,11 @@ async fn is_admin(user_id: u64) -> Result<bool, BoxError> {
 
 fn main() {
     tauri::Builder::default()
+    .plugin(tauri_plugin_log::Builder::default().targets([
+        LogTarget::LogDir,
+        LogTarget::Stdout,
+        LogTarget::Webview,
+    ]).build())
         .invoke_handler(tauri::generate_handler![
             greet,
             get_all_users,
