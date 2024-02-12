@@ -5,11 +5,11 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Home from './admin/pages/home/Home';
 import Users from './admin/pages/users/Users';
-import Products from './admin/pages/products/Products';
 import Navbar from './admin/components/navbar/Navbar';
 import Menu from './admin/components/menu/Menu';
 import Footer from './admin/components/footer/Footer';
-// import Login from './login/Login';
+import Login from "../src/login/Login";
+import Finance from "./admin/pages/finance/finance";
 
 function App() {
 
@@ -31,26 +31,26 @@ function App() {
   };
 
   const router = createBrowserRouter([
-    // {
-    //   path: "/",
-    //   element: <Login />,
-    // },
     {
       path: "/",
+      element: <Login />,
+    },
+    {
+      path: "/admin",
       element: <Layout />,
       children: [
         {
-          path: "/",
+          path: "/admin/",
           element: <Home />,
         },
         {
-          path: "/users",
+          path: "/admin/users",
           element: <Users />,
         },
          //TODO change products to to more appropriate name (Finance) or something idk :100:
         {
-          path: "/products",
-          element: <Products />,
+          path: "/admin/finance",
+          element: <Finance />,
         },
        
         // {
@@ -63,16 +63,16 @@ function App() {
         // },
       ],
     },
-    // {
-    //   path: "/user",
-    //   element: <Layout />,
-    //   children: [
-    //     {
-    //       path: "/",
-    //       element: <Home />
-    //     }
-    //   ]
-    // }
+    {
+      path: "/user",
+      element: <Layout />,
+      children: [
+        {
+          path: "/user/",
+          element: <Home />
+        }
+      ]
+    }
     //TODO use login path on startup when ready
     // {
     //   path: "/login",
