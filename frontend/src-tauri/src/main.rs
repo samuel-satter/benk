@@ -2,10 +2,12 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod user;
+mod login;
 
 use serde::Serialize;
 use tauri_plugin_log::LogTarget;
 use user::User;
+use login::login;
 
 #[derive(Serialize)]
 struct BoxError {
@@ -130,7 +132,8 @@ fn main() {
             get_all_users,
             get_user,
             save_user,
-            is_admin
+            is_admin,
+            login
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

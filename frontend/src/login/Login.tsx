@@ -7,7 +7,6 @@ interface LoginProps{}
 
 const Login: React.FC<LoginProps> = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

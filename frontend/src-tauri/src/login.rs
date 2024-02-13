@@ -1,10 +1,14 @@
-#[derive(Default)]
+use serde::Serialize;
+
+use crate::BoxError;
+
+#[derive(Serialize)]
 struct MyState {
   s: std::sync::Mutex<String>,
   t: std::sync::Mutex<std::collections::HashMap<String, String>>,
 }
 
-#[dervie(Serialize)]
+#[derive(Serialize)]
 struct LoginDTO {
   email: String,
   password: String,
@@ -18,7 +22,8 @@ async fn command_name(state: tauri::State<'_, MyState>) -> Result<(), String> {
   Ok(())
 }
 
-async fn login(email: String, password: String) -> Result<String, BoxError> {
+#[tauri::command]
+pub async fn login(email: String, password: String) -> Result<String, BoxError> {
   let client = reqwest::Client::new();
   let auth_url = "http://localhost:8080/jwt/authenticate";
   let admin_check_url = "http://localhost:8080/user/isAdmin";
@@ -50,12 +55,13 @@ async fn login(email: String, password: String) -> Result<String, BoxError> {
 
     println!("response body: {}", body);
 
-    let user_id: i64 = match response.json().await {
+    let user_id: i64 = match serde_json::from_str(&body) {
       Ok(id) => id,
       Err(e) => return Err(BoxError {
-        message: e.to_string(),
+          message: e.to_string(),
       }),
     };
+
 
     let admin_response = match client.get(admin_check_url).query(&[("id", user_id)]).send().await {
       Ok(resp) => resp,
@@ -77,10 +83,10 @@ async fn login(email: String, password: String) -> Result<String, BoxError> {
       }),
     };
 
-    Ok(is_admin)
+    Ok(is_admin.to_string())
   }
 
 
 fn create_account(email: String, password: String) -> Result<String, String> {
-    Ok(format!("user successfully created account with email: {}"), email)
+    Ok(format!("user successfully created account with email: {}", email))
 }
