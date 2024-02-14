@@ -12,4 +12,6 @@ jwt:
     id: benktoken
     issuer: benk
     timeToLive: 259200000
-  
+logging:
+  level:
+    com.example: DEBUG

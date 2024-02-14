@@ -13,6 +13,8 @@ import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.validation.constraints.Email;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -29,6 +31,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String password;
+    @Email
     private String email;
     private String phoneNumber;
     private String origin;

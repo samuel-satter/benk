@@ -42,20 +42,37 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         this.userRepository = userRepository;
     }
 
-    public UserDetails loadByEmail(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found " + email));
+                        new UsernameNotFoundException("User not found" + username));
 
         Set<GrantedAuthority> authoritySet = user
                 .getRoles()
                 .stream()
-                .map((role) -> new SimpleGrantedAuthority(role.getEmail())).collect(Collectors.toSet());
+                .map((role -> new SimpleGrantedAuthority(role.getEmail()))).collect(Collectors.toSet());
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(),
                 authoritySet);
     }
+
+//    public UserDetails loadByUsername(String email) throws UsernameNotFoundException {
+//        User user = userRepository.findByEmail(email)
+//                .orElseThrow(() ->
+//                        new UsernameNotFoundException("User not found " + email));
+//
+//        Set<GrantedAuthority> authoritySet = user
+//                .getRoles()
+//                .stream()
+//                .map((role) -> new SimpleGrantedAuthority(role.getEmail())).collect(Collectors.toSet());
+//
+//        return new org.springframework.security.core.userdetails.User(user.getEmail(),
+//                user.getPassword(),
+//                authoritySet);
+//    }
 
     public ResponseDTO createAccount(UserRequestDTO userRequestDTO) {
         if (userRepository.existsByEmail(userRequestDTO.getEmail())) {
@@ -96,10 +113,5 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
     }
 }
