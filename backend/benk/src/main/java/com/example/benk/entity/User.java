@@ -30,11 +30,12 @@ public class User {
     private Boolean isAdmin;
     private String firstName;
     private String lastName;
-    private String password;
+    private String pw;
     @Email
     private String email;
     private String phoneNumber;
     private String origin;
+    @Column(name = "account_number")
     private String accountNumber;
     private BigDecimal balance;
     private String status;
