@@ -24,7 +24,9 @@ const Login: React.FC<LoginProps> = () => {
         navigate('/user');
       }
     } catch (error) {
-      setMessage('error logging in: ${error.message}');
+      const err = error as Error
+      setMessage(`error logging in: ${err.message}`);
+      console.log(`${err.message}`, message);
     }
   };
 
