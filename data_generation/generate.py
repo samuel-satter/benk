@@ -1,6 +1,7 @@
 import csv
 from faker import Faker
 import random
+import bcrypt
 from datetime import datetime, timedelta
 
 #this is used to generate a dataset with random accounts
@@ -12,6 +13,7 @@ def generate_user():
     firstName = fake.first_name()
     lastName = fake.last_name()
     pw = fake.password()
+    hashed_pw = bcrypt.hashpw(pw.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     email = fake.email()
     phoneNumber = fake.phone_number()
     origin = fake.country()
@@ -21,7 +23,7 @@ def generate_user():
     createdAt = fake.date_time_this_decade()
     updatedAt = createdAt + timedelta(days=random.randint(1, 30))
     
-    return [isAdmin, firstName, lastName, pw, email, phoneNumber, origin, 
+    return [isAdmin, firstName, lastName, hashed_pw, email, phoneNumber, origin, 
             accountNumber, balance, status, createdAt, updatedAt]
     
 with open('mock_user_data.csv', 'w', newline='') as csvfile:
