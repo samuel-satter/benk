@@ -41,12 +41,12 @@ function App() {
           <Route path="" element={<Home />} />
           <Route path="users" element={<Users />} />
           <Route path="finance" element={<Finance />} />
-          {/* ... other admin routes */}
+          
         </Route>
         <Route path="/user/*" element={<Home />}>
-          {/* ... other user routes */}
+
         </Route>
-        {/* ... other routes */}
+
       </Routes>
     </Router>
   );

@@ -1,6 +1,7 @@
 package com.example.benk.service;
 
 import com.example.benk.dto.AccountInfoDTO;
+import com.example.benk.dto.LoginDTO;
 import com.example.benk.dto.ResponseDTO;
 import com.example.benk.dto.UserRequestDTO;
 import com.example.benk.entity.User;
@@ -104,6 +105,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                         .accountNumber(savedUser.getAccountNumber())
                         .build())
                 .build();
+    }
+
+    public boolean authenticateUser(LoginDTO loginDTO) {
+        return true;
     }
 
     public boolean checkIfUserIsAdmin(long id) {
