@@ -1,6 +1,7 @@
 import "./login.scss"
 import React, { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
+import { appWindow } from "@tauri-apps/api/window"
 import { useNavigate, Link } from 'react-router-dom';
 
 interface LoginProps{}
@@ -26,6 +27,8 @@ const Login: React.FC<LoginProps> = () => {
         } else {
           navigate('/user')
         }
+        await appWindow.maximize();
+        await appWindow.setFullscreen(true);       
       } else {
         throw new Error('JWT is not a string');
       }  
