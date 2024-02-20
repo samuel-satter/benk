@@ -9,9 +9,9 @@ import lombok.Data;
 @Configuration
 @Data
 public class JwtConfig {
-    private String hmacSecret;
-    private String subject;
-    private String id;
-    private String issuer;
-    private int timeToLive;
+    // private String hmacSecret;
+    // private String subject;
+    // private String id;
+    // private String issuer;
+    // private int timeToLive;
 }

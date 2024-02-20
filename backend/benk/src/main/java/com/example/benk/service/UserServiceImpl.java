@@ -8,6 +8,10 @@ import com.example.benk.entity.User;
 import com.example.benk.repository.UserRepository;
 import com.example.benk.utils.AccountUtils;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+
+import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -20,8 +24,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {
+
+
+    public static final String SECRET_KEY = "jwt";
 
     public static final String OK_CODE = "200";
     public static final String USER_IS_ADMIN_MESSAGE = "User is admin";
@@ -108,7 +118,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     public boolean authenticateUser(LoginDTO loginDTO) {
-        return true;
+        User user = userRepository.findByEmail(loginDTO.getEmail()).get();
+        if (user.getEmail().equals(loginDTO.getEmail()) && user.getPw().equals(loginDTO.getPassword())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean checkIfUserIsAdmin(long id) {
@@ -118,5 +133,25 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         } else {
             return false;
         }
+    }
+
+
+    @Override
+    public String generateToken(String email) {
+        Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+
+        long nowMillis = System.currentTimeMillis();
+        Date now = new Date(nowMillis);
+        long expMillis = nowMillis + 3600000;
+        Date exp = new Date(expMillis);
+        
+        String jwt = Jwts.builder()
+        .setSubject(email)
+        .setIssuedAt(now)
+        .setExpiration(exp)
+        .signWith(key)
+        .compact();
+
+        return jwt;
     }
 }

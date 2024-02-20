@@ -11,5 +11,5 @@ public interface UserService {
     ResponseDTO createAccount(UserRequestDTO userRequestDTO);
     boolean checkIfUserIsAdmin(long id);
     boolean authenticateUser(LoginDTO loginDTO);
-    String generateToken(String email, String password);
+    String generateToken(String email);
 }
