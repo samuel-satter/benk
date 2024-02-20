@@ -126,19 +126,31 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }
     }
 
-    public boolean checkIfUserIsAdmin(long id) {
-        Optional<User> user = userRepository.findById(id);  
-        if(user.isPresent() && user.get().getIsAdmin()) {
-            return true;
-        } else {
-            return false;
+    @Override
+    public boolean checkIfUserIsAdmin(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        return user.isPresent() && user.get().getIsAdmin();
+    }
+
+    @Override
+    public Long getUserIdByEmail(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            return user.getId();
         }
+        return null;
     }
 
 
     @Override
     public String generateToken(String email) {
-        Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        String secretKey = System.getenv("SECRET_KEY");
+        if (secretKey == null || secretKey.isEmpty()) {
+            System.out.println("SECRET_KEY environment variable is not set or is empty.");
+            throw new IllegalStateException("Secret key not found in environment variables");
+        }
+        Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
@@ -154,4 +166,5 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         return jwt;
     }
+
 }

@@ -6,12 +6,6 @@ spring:
   security:
     csrf:
       enabled: false  
-jwt:
-    hmacSecret: 828986f864b663098b19a57caf3f63c0c9fb572fafdb85d718ace1719257158a
-    subject: v1
-    id: benktoken
-    issuer: benk
-    timeToLive: 259200000
 logging:
   level:
     org.springframework.security.web: DEBUG

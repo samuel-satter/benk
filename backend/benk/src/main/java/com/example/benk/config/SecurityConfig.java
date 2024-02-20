@@ -61,12 +61,12 @@ public class SecurityConfig {
 //        }));
 //        return httpSecurity.build();
 //    }
-    // @Bean
-    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    //     http.authorizeHttpRequests(authorizeRequests ->
-    //                 authorizeRequests.anyRequest().permitAll())
-    //         .csrf(AbstractHttpConfigurer::disable);
+     @Bean
+     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+         http.authorizeHttpRequests(authorizeRequests ->
+                     authorizeRequests.anyRequest().permitAll())
+             .csrf(AbstractHttpConfigurer::disable);
 
-    // return http.build();
-    // }
+     return http.build();
+     }
 }

@@ -1,7 +1,7 @@
 import "./login.scss"
 import React, { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 interface LoginProps{}
 
@@ -16,19 +16,40 @@ const Login: React.FC<LoginProps> = () => {
     event.preventDefault();
     
     try {
-      const isAdmin = await invoke('login', { email, password });
-      setMessage('logged in successfully: ${result}');
-      if(isAdmin) {
-        navigate('/admin');
+      const jwt = await invoke('login', { email, password });
+      if(typeof jwt === 'string') {
+        localStorage.setItem('jwt', jwt)
+        const isAdmin = await invoke('is_admin', { email })
+
+        if(isAdmin) {
+          navigate('/admin');
+        } else {
+          navigate('/user')
+        }
       } else {
-        navigate('/user');
-      }
+        throw new Error('JWT is not a string');
+      }  
+
     } catch (error) {
-      const err = error as Error
-      setMessage(`error logging in: ${err.message}`);
+      const err = error as Error;
+      setMessage(`Error loggin in: ${err.message}`);
       console.log(`${err.message}`, message);
     }
-  };
+  }
+  //   try {
+  //     const isAdmin = await invoke('login', { email, password });
+  //     setMessage('logged in successfully: ${result}');
+  //     if(isAdmin) {
+  //       navigate('/admin');
+  //     } else {
+  //       navigate('/user');
+  //     }
+  //   } catch (error) {
+  //     const err = error as Error
+  //     setMessage(`error logging in: ${err.message}`);
+  //     console.log(`${err.message}`, message);
+  //   }
+  // };
 
   return (
     <div className="auth-form-container">

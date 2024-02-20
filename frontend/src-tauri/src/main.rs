@@ -8,6 +8,7 @@ use serde::Serialize;
 use tauri_plugin_log::LogTarget;
 use user::User;
 use login::login;
+use login::is_admin;
 
 #[derive(Serialize)]
 struct BoxError {
@@ -97,28 +98,7 @@ async fn save_user(user: User) -> Result<User, BoxError> {
     Ok(saved_user)
 }
 
-#[tauri::command]
-async fn is_admin(user_id: u64) -> Result<bool, BoxError> {
-    let client = reqwest::Client::new();
-    let url = format!("http://localhost:8080/user/isAdmin/{}", user_id);
-    let response = match client.get(&url).send().await {
-        Ok(resp) => resp,
-        Err(e) => return Err(BoxError { message: e.to_string() }),
-    };
 
-    if !response.status().is_success() {
-        return Err(BoxError {
-            message: "Failed to check if user is admin".to_string(),
-        });
-    }
-
-    let is_admin: bool = match response.json().await {
-        Ok(u) => u,
-        Err(e) => return Err(BoxError { message: e.to_string() }),
-    };
-
-    Ok(is_admin)
-}
 
 fn main() {
     tauri::Builder::default()

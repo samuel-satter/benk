@@ -9,7 +9,8 @@ import com.example.benk.dto.UserRequestDTO;
 @Service
 public interface UserService {
     ResponseDTO createAccount(UserRequestDTO userRequestDTO);
-    boolean checkIfUserIsAdmin(long id);
+    boolean checkIfUserIsAdmin(String email);
     boolean authenticateUser(LoginDTO loginDTO);
     String generateToken(String email);
+    Long getUserIdByEmail(String email);
 }

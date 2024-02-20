@@ -23,7 +23,7 @@ public AuthController(UserService userService) {
 @PostMapping("/authenticate")
 public ResponseEntity<String> authenticateUser(@RequestBody LoginDTO loginDTO) {
     boolean isAuthenticated = userService.authenticateUser(loginDTO);
-    
+
     if (isAuthenticated) {
         String token = userService.generateToken(loginDTO.getEmail());
         return new ResponseEntity<>(token, HttpStatus.OK);

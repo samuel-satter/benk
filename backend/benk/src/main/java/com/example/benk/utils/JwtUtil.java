@@ -15,42 +15,42 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    private final JwtConfig jwtConfig;
+    // private final JwtConfig jwtConfig;
 
-    public JwtUtil(JwtConfig jwtConfig) {
-        this.jwtConfig = jwtConfig;
-    }
+    // public JwtUtil(JwtConfig jwtConfig) {
+    //     this.jwtConfig = jwtConfig;
+    // }
 
-    public String createJwt(Map<String, Object> claims) {
+    // public String createJwt(Map<String, Object> claims) {
 
-        long nowInMillis = System.currentTimeMillis();
-        Date now = new Date(nowInMillis);
+    //     long nowInMillis = System.currentTimeMillis();
+    //     Date now = new Date(nowInMillis);
 
-        byte[] secret = Base64.getEncoder().encode(jwtConfig.getHmacSecret().getBytes());
+    //     byte[] secret = Base64.getEncoder().encode(jwtConfig.getHmacSecret().getBytes());
 
-        Key signingKey = new SecretKeySpec(secret, Jwts.SIG.HS256.toString());
+    //     Key signingKey = new SecretKeySpec(secret, Jwts.SIG.HS256.toString());
 
-        JwtBuilder jwtBuilder = Jwts.builder()
-                .id(jwtConfig.getId())
-                .issuedAt(now)
-                .subject(jwtConfig.getSubject())
-                .issuer(jwtConfig.getIssuer())
-                .claims(claims)
-                .signWith(signingKey);
+    //     JwtBuilder jwtBuilder = Jwts.builder()
+    //             .id(jwtConfig.getId())
+    //             .issuedAt(now)
+    //             .subject(jwtConfig.getSubject())
+    //             .issuer(jwtConfig.getIssuer())
+    //             .claims(claims)
+    //             .signWith(signingKey);
 
-        if (jwtConfig.getTimeToLive() > 0) {
-            jwtBuilder.expiration(new Date(nowInMillis + jwtConfig.getTimeToLive()));
-        }
+    //     if (jwtConfig.getTimeToLive() > 0) {
+    //         jwtBuilder.expiration(new Date(nowInMillis + jwtConfig.getTimeToLive()));
+    //     }
 
-        return jwtBuilder.compact();
-    }
+    //     return jwtBuilder.compact();
+    // }
 
-    public Claims parseJwt(String jwt) {
-        return Jwts.parser()
-                .setSigningKey(Base64.getEncoder().encode(jwtConfig.getHmacSecret().getBytes()))
-                .build()
-                .parseSignedClaims(jwt)
-                .getPayload();
-    }
+    // public Claims parseJwt(String jwt) {
+    //     return Jwts.parser()
+    //             .setSigningKey(Base64.getEncoder().encode(jwtConfig.getHmacSecret().getBytes()))
+    //             .build()
+    //             .parseSignedClaims(jwt)
+    //             .getPayload();
+    // }
 
 }

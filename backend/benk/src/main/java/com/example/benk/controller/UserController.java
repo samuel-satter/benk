@@ -5,6 +5,8 @@ import com.example.benk.repository.UserRepository;
 import com.example.benk.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,9 +38,13 @@ public class UserController {
     public User saveUser(@RequestBody User user) {
         return userRepository.save(user);
     }
-    @GetMapping("/isAdmin")
-    public ResponseEntity<Boolean> isAdmin(@PathVariable Long id) {
-        boolean isAdmin = userService.checkIfUserIsAdmin(id);
+    @GetMapping("/{email}/isAdmin")
+    public ResponseEntity<Boolean> isAdmin(@PathVariable String email) {
+        Long userId = userService.getUserIdByEmail(email);
+        if (userId == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        boolean isAdmin = userService.checkIfUserIsAdmin(email);
         return ResponseEntity.ok(isAdmin);
     }
 }
