@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.example.benk.dto.LoginDTO;
 import com.example.benk.dto.ResponseDTO;
 import com.example.benk.dto.UserRequestDTO;
+import com.example.benk.entity.User;
 
 @Service
 public interface UserService {
@@ -13,4 +14,5 @@ public interface UserService {
     boolean authenticateUser(LoginDTO loginDTO);
     String generateToken(String email);
     Long getUserIdByEmail(String email);
+    User saveUser(User user);
 }

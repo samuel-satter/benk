@@ -35,8 +35,9 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public User saveUser(@RequestBody User user) {
-        return userRepository.save(user);
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
+        User savedUser = userService.saveUser(user);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
     @GetMapping("/{email}/isAdmin")
     public ResponseEntity<Boolean> isAdmin(@PathVariable String email) {

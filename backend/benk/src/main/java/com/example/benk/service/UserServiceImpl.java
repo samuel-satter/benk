@@ -167,4 +167,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return jwt;
     }
 
+
+    @Override
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
 }
