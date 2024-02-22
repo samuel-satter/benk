@@ -38,7 +38,7 @@ public class User {
     @Column(name = "account_number")
     private String account_number;
     private BigDecimal balance;
-    private String status;
+    private Boolean status;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp

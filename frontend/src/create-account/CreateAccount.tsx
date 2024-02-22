@@ -1,13 +1,16 @@
 import { invoke } from '@tauri-apps/api/tauri';
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './createAccount.scss';
 
 interface CreateAccountProps {
 }
 
 const CreateAccount: React.FC<CreateAccountProps> = () => {
+  
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
+  const [errorMessage, setErrorMessage] = useState('');
 
   type UserData = {
     firstName: string,
@@ -31,15 +34,6 @@ const CreateAccount: React.FC<CreateAccountProps> = () => {
     accountNumber: '',
     balance: '',
   });
-
-  const [errorMessage, setErrorMessage] = useState('');
-  const [activeInput, setActiveInput] = useState<HTMLInputElement | null>(null);
-  const formRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    // This will run after the component mounts, similar to $(document).ready
-    // You can put any setup code here
-  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -135,11 +129,11 @@ const CreateAccount: React.FC<CreateAccountProps> = () => {
 
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
-    // setUserData(prevData => ({ ...prevData, step1: userData.firstName, step2: userData.lastName, step3: userData.email, step4: userData.pw, step5: userData.phoneNumber, step6: userData.origin, step7: userData.accountNumber, step8: userData.balance }));
+
     const userDataToSave = {
       user: {
       id: 0,
-      is_admin: 0,
+      is_admin: false,
       first_name: userData.firstName,
       last_name: userData.lastName,
       email: userData.email,
@@ -148,7 +142,7 @@ const CreateAccount: React.FC<CreateAccountProps> = () => {
       origin: userData.origin,
       account_number: userData.accountNumber,
       balance: parseFloat(userData.balance),
-      status: 1,
+      status: true,
       created_at: new Date().toISOString,
       updated_at: new Date().toISOString
       }
@@ -157,6 +151,7 @@ const CreateAccount: React.FC<CreateAccountProps> = () => {
     try {
     const savedUser = await invoke('save_user', userDataToSave);
     console.log('User saved', savedUser);
+    navigate('/user');
     } catch(error) {
       console.error('ts failed to save user: ', error);
     }
@@ -182,10 +177,6 @@ const CreateAccount: React.FC<CreateAccountProps> = () => {
   const isStepCompleted = (stepNumber: number) => {
     return stepNumber <= step && userData[`step${stepNumber}`] !== '';
   }
-
-  // const errorMessage = (message: string, visibility: string, opacity: number) => {
-  //   // Logic to display error messages
-  // };
 
   return (
     <div className="container">

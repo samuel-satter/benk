@@ -16,11 +16,11 @@ public class UserRequestDTO {
     private Boolean isAdmin;
     private String firstName;
     private String lastName;
-    private String password;
+    private String pwd;
     private String email;
     private String phoneNumber;
     private String origin;
     private String accountNumber;
     private BigDecimal balance;
-    private String status;
+    private Boolean status;
 }
