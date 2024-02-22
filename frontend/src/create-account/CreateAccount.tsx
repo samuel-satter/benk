@@ -12,7 +12,7 @@ const CreateAccount: React.FC<CreateAccountProps> = () => {
   type UserData = {
     firstName: string,
     lastName: string,
-    password: string,
+    pwd: string,
     email: string,
     phoneNumber: string,
     origin: string,
@@ -24,7 +24,7 @@ const CreateAccount: React.FC<CreateAccountProps> = () => {
   const [userData, setUserData] = useState<UserData>({
     firstName: '',
     lastName: '',
-    password: '',
+    pwd: '',
     email: '',
     phoneNumber: '',
     origin: '',
@@ -77,10 +77,10 @@ const CreateAccount: React.FC<CreateAccountProps> = () => {
         }
         break;
       case  4:
-        if (userData.password.trim() === '') {
+        if (userData.pwd.trim() === '') {
           setErrorMessage('Please choose a secure password');
         } else {
-          setUserData(prevData => ({ ...prevData, step4: userData.password }))
+          setUserData(prevData => ({ ...prevData, step4: userData.pwd }))
           setStep(step +  1);
           setErrorMessage('');
         }
@@ -137,15 +137,22 @@ const CreateAccount: React.FC<CreateAccountProps> = () => {
     event.preventDefault();
     // setUserData(prevData => ({ ...prevData, step1: userData.firstName, step2: userData.lastName, step3: userData.email, step4: userData.pw, step5: userData.phoneNumber, step6: userData.origin, step7: userData.accountNumber, step8: userData.balance }));
     const userDataToSave = {
-      firstName: userData.firstName,
-      lastName: userData.lastName,
+      user: {
+      id: 0,
+      is_admin: 0,
+      first_name: userData.firstName,
+      last_name: userData.lastName,
       email: userData.email,
-      password: userData.password,
-      phoneNumber: userData.phoneNumber,
+      pwd: userData.pwd,
+      phone_number: userData.phoneNumber,
       origin: userData.origin,
-      accountNumber: userData.accountNumber,
-      balance: userData.balance
-    }
+      account_number: userData.accountNumber,
+      balance: parseFloat(userData.balance),
+      status: 1,
+      created_at: new Date().toISOString,
+      updated_at: new Date().toISOString
+      }
+    };
     
     try {
     const savedUser = await invoke('save_user', userDataToSave);
@@ -243,13 +250,13 @@ const CreateAccount: React.FC<CreateAccountProps> = () => {
           )}
             {step ===   4 && (
             <li>
-            <span><label htmlFor="password">Choose a password</label></span>
+            <span><label htmlFor="pwd">Choose a password</label></span>
             <input
-              id="password"
-              name="password"
+              id="pwd"
+              name="pwd"
               type="password"
               placeholder="Choose a password"
-              value={userData.password}
+              value={userData.pwd}
               onChange={handleChange}
               onKeyPress={handleKeyPress}
               autoFocus

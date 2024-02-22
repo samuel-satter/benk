@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                 .map((role -> new SimpleGrantedAuthority(role.getEmail()))).collect(Collectors.toSet());
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
-                user.getPw(),
+                user.getPwd(),
                 authoritySet);
     }
 
@@ -94,13 +94,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                   .build();
         }
         User newUser = User.builder()
-                .isAdmin(userRequestDTO.getIsAdmin())
-                .firstName(userRequestDTO.getFirstName())
-                .lastName(userRequestDTO.getLastName())
+                .is_admin(userRequestDTO.getIsAdmin())
+                .first_name(userRequestDTO.getFirstName())
+                .last_name(userRequestDTO.getLastName())
                 .origin(userRequestDTO.getOrigin())
-                .phoneNumber(userRequestDTO.getPhoneNumber())
+                .phone_number(userRequestDTO.getPhoneNumber())
                 .email(userRequestDTO.getEmail())
-                .accountNumber(AccountUtils.generateAccountNumber(RANGE))
+                .account_number(AccountUtils.generateAccountNumber(RANGE))
                 .status(userRequestDTO.getStatus())
                 .build();
         User savedUser = userRepository.save(newUser);
@@ -108,18 +108,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                 .responseCode(OK_CODE)
                 .responseMessage(ACCOUNT_CREATED_MESSAGE)
                 .accountInfoDTO(AccountInfoDTO.builder()
-                        .isAdmin(savedUser.getIsAdmin())
-                        .accountFirstName(savedUser.getFirstName())
-                        .accountLastName(savedUser.getLastName())
+                        .isAdmin(savedUser.getIs_admin())
+                        .accountFirstName(savedUser.getFirst_name())
+                        .accountLastName(savedUser.getLast_name())
                         .accountBalance(savedUser.getBalance())
-                        .accountNumber(savedUser.getAccountNumber())
+                        .accountNumber(savedUser.getAccount_number())
                         .build())
                 .build();
     }
 
     public boolean authenticateUser(LoginDTO loginDTO) {
         User user = userRepository.findByEmail(loginDTO.getEmail()).get();
-        if (user.getEmail().equals(loginDTO.getEmail()) && user.getPw().equals(loginDTO.getPassword())) {
+        if (user.getEmail().equals(loginDTO.getEmail()) && user.getPwd().equals(loginDTO.getPwd())) {
             return true;
         } else {
             return false;
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public boolean checkIfUserIsAdmin(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-        return user.isPresent() && user.get().getIsAdmin();
+        return user.isPresent() && user.get().getIs_admin();
     }
 
     @Override

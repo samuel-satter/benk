@@ -27,16 +27,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Boolean isAdmin;
-    private String firstName;
-    private String lastName;
-    private String pw;
+    private Boolean is_admin;
+    private String first_name;
+    private String last_name;
+    private String pwd;
     @Email
     private String email;
-    private String phoneNumber;
+    private String phone_number;
     private String origin;
     @Column(name = "account_number")
-    private String accountNumber;
+    private String account_number;
     private BigDecimal balance;
     private String status;
     @CreationTimestamp
