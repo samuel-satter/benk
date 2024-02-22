@@ -157,8 +157,3 @@ pub async fn is_admin(email: String) -> Result<bool, BoxError> {
 
 //     Ok(is_admin.to_string())
 //   }
-
-
-fn create_account(email: String, password: String) -> Result<String, String> {
-    Ok(format!("user successfully created account with email: {}", email))
-}

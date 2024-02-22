@@ -1,16 +1,6 @@
 package com.example.benk.utils;
 
-import com.example.benk.config.JwtConfig;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Component;
-
-import javax.crypto.spec.SecretKeySpec;
-import java.security.Key;
-import java.util.Base64;
-import java.util.Date;
-import java.util.Map;
 
 @Component
 public class JwtUtil {
