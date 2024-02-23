@@ -1,6 +1,6 @@
 use serde::Serialize;
 
-use crate::BoxError;
+use crate::errors::BoxError;
 
 #[derive(Serialize)]
 struct MyState {

@@ -9,7 +9,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    navigate('/forgot-password/verify');
+    navigate('/verify-code');
   };
 
   return (

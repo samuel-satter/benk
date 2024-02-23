@@ -12,6 +12,8 @@ import Login from "../src/login/Login";
 import Finance from "./admin/pages/finance/finance";
 import CreateAccount from "../src/create-account/CreateAccount";
 import ForgotPassword from "../src/forgot-password/ForgotPassword";
+import ResetPassword from "./forgot-password/reset-password/ResetPassword";
+import VerifyCode from "./forgot-password/verify-code/VerifyCode";
 
 function App() {
 
@@ -36,7 +38,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/create-account" element={<CreateAccount />}/>
-        <Route path="/forgot-password" element={<ForgotPassword />}/>
+        <Route path="/forgot-password/*" element={<ForgotPassword />}>
+          <Route path="verify-code/" element={<VerifyCode />}>
+            <Route path="reset-password" element={<ResetPassword />} />
+          </Route>
+        </Route>
         <Route path="/admin/*" element={<Layout />}>
           <Route path="" element={<Home />} />
           <Route path="users" element={<Users />} />
