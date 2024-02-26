@@ -1,6 +1,7 @@
 package com.example.benk.controller;
 
 import com.example.benk.entity.User;
+import com.example.benk.exception.UserNotFoundException;
 import com.example.benk.repository.UserRepository;
 import com.example.benk.service.UserService;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException.NotFound;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,5 +48,16 @@ public class UserController {
         }
         boolean isAdmin = userService.checkIfUserIsAdmin(email);
         return ResponseEntity.ok(isAdmin);
+    }
+    @PutMapping("/pwd/{userId}")
+    public ResponseEntity<?> updatePwd(@PathVariable("userId") Long userId, @RequestBody String newPwd) {
+        try {
+            User updatedUser = userService.changeUserPassword(userId, newPwd);
+            return ResponseEntity.ok(updatedUser);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception exception) {
+            return ResponseEntity.badRequest().body("Failed to change user password");
+        }
     }
 }

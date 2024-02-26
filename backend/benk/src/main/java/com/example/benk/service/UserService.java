@@ -15,4 +15,5 @@ public interface UserService {
     String generateToken(String email);
     Long getUserIdByEmail(String email);
     User saveUser(User user);
+    User changeUserPassword(Long id, String newPwd);
 }

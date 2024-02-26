@@ -87,3 +87,28 @@ pub async fn save_user(user: User) -> Result<User, BoxError> {
 
     Ok(saved_user)
 }
+
+#[tauri::command]
+pub async fn change_user_pwd(pwd: String, user: User) -> Result<User, BoxError> {
+    let client = reqwest::Client::new();
+    let url = format!("http://localhost:8080/user/pwd/{}", user.id);
+    let response = match client.put(&url).json(&pwd).send().await {
+        Ok(resp) => resp,
+        Err(e) => return Err(BoxError { message: e.to_string() }),
+    };
+
+    if !response.status().is_success() {
+        return Err(BoxError {
+            message: "Failed to change user password".to_string(),
+        });
+    }
+
+    let updated_user: User = match response.json().await {
+        Ok(u) => u, 
+        Err(e) => return Err(BoxError {message: e.to_string() }),
+    };
+
+    Ok(updated_user)
+    
+
+}

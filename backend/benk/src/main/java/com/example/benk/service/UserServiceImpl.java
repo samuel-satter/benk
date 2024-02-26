@@ -5,6 +5,7 @@ import com.example.benk.dto.LoginDTO;
 import com.example.benk.dto.ResponseDTO;
 import com.example.benk.dto.UserRequestDTO;
 import com.example.benk.entity.User;
+import com.example.benk.exception.UserNotFoundException;
 import com.example.benk.repository.UserRepository;
 import com.example.benk.utils.AccountUtils;
 
@@ -171,6 +172,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public User saveUser(User user) {
         return userRepository.save(user);
+    }
+
+
+    @Override
+    public User changeUserPassword(Long id, String newPwd) {
+        User user = userRepository.findById(id)
+        .orElseThrow(() -> new UserNotFoundException("User with id " + id + "not found in database"));
+
+        user.setPwd(newPwd);
+        userRepository.save(user);
+
+        return user;
     }
 
 }
