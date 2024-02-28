@@ -4,11 +4,14 @@
 mod user;
 mod login;
 mod errors;
+mod code;
 
 use tauri_plugin_log::LogTarget;
 use user::{get_all_users, get_user, save_user};
 use login::login;
 use login::is_admin;
+use user::change_user_pwd;
+use code::{send_verification_code, verify_code};
 
 #[tauri::command]
 fn greet(name: &str) -> String {
@@ -28,7 +31,10 @@ fn main() {
             get_user,
             save_user,
             is_admin,
-            login
+            login,
+            change_user_pwd,
+            send_verification_code,
+            verify_code
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
