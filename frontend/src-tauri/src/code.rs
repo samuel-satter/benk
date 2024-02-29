@@ -1,7 +1,7 @@
 use std::env;
 
 use reqwest::Client;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use serde_json::json;
 use uuid::Uuid;
 
@@ -13,8 +13,8 @@ struct VerifyCodeRequest {
     code: String,
 }
 
-#[derive(Serialize)]
-struct VerifyCodeResponse {
+#[derive(Serialize, Deserialize)]
+pub struct VerifyCodeResponse {
     success: bool,
     message: String,
 }
