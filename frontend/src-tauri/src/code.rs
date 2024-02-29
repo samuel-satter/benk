@@ -1,12 +1,11 @@
 use std::env;
 
-use rand::Rng;
 use reqwest::Client;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use serde_json::json;
 use uuid::Uuid;
 
-use crate::{errors::BoxError, user::User};
+use crate::errors::BoxError;
 
 #[derive(Serialize)]
 struct VerifyCodeRequest {
@@ -14,20 +13,21 @@ struct VerifyCodeRequest {
     code: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Serialize)]
 struct VerifyCodeResponse {
     success: bool,
     message: String,
 }
 
 #[tauri::command]
-pub async fn verify_code(email: String, code: String) -> Result<(), BoxError> {
-    let client = Client::new();
-    let url = format!("http://localhost:8080/user/verifyCode?email={}&code={}", email, code);
+pub async fn verify_code(email: String, code: String) -> Result<VerifyCodeResponse, BoxError> {
+    let client = reqwest::Client::new();
+    let url = format!("http://localhost:8080/user/verify-code");
+    let request_body = VerifyCodeRequest { email, code };
 
-    let response = match client.get(&url).send().await {
+    let response = match client.post(&url).json(&request_body).send().await {
         Ok(resp) => resp,
-        Err(e) => return Err(BoxError { message: e.to_string() })
+        Err(e) => return Err(BoxError { message: e.to_string() }),
     };
 
     if !response.status().is_success() {
@@ -41,11 +41,7 @@ pub async fn verify_code(email: String, code: String) -> Result<(), BoxError> {
         Err(e) => return Err(BoxError { message: e.to_string() }),
     };
 
-    if response_body.success {
-        Ok(())
-    } else {
-        Err(BoxError { message: response_body.message })
-    }
+    Ok(response_body)
 }
 
 fn generate_verification_code() -> String {
@@ -58,16 +54,16 @@ pub async fn send_verification_code(email: String) -> Result<(), BoxError> {
     let client = Client::new();
     let verification_code = generate_verification_code();
 
-    let user_url = format!("http://localhost:8080/user/findByEmail?email={}", email);
-    let user: User = match client.get(&user_url).send().await {
-        Ok(resp) => match resp.json().await {
-            Ok(u) => u,
-            Err(e) => return Err(BoxError { message: e.to_string() }),
-        },
-        Err(e) => return Err(BoxError { message: e.to_string() }),
-    };
+    let save_code_url = format!("http://localhost:8080/user/findByEmail?email={}", email);
+    let save_code_response = client.post(&save_code_url)
+        .json(&email)
+        .send()
+        .await;
+    if save_code_response.is_err() {
+        return Err(BoxError { message: "Failed to save verification code".to_string() });
+    }
 
-    send_email(&user.email, &verification_code).await?;
+    send_email(&email, &verification_code).await?;
 
     Ok(())
 }

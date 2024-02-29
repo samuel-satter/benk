@@ -2,13 +2,18 @@ import { invoke } from '@tauri-apps/api/tauri';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+interface VerifyCodeResponse {
+  success: boolean;
+  message: string;
+}
+
 const VerifyCode = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   
-
   useEffect(() => {
     if (location.state) {
       setEmail(location.state.email);
@@ -17,7 +22,16 @@ const VerifyCode = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    navigate('/reset-password');
+    try {
+      const response: VerifyCodeResponse = await invoke('verify_code', { email, code })
+      if (response.success) {
+        navigate('/reset-password')
+      } else {
+        setErrorMessage(response.message)
+      }
+    } catch (error) {
+      console.error('Ts failed to verify code', error)
+    }
   };
 
   const handleResend = async () => {
