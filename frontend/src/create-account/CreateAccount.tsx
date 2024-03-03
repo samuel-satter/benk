@@ -132,19 +132,19 @@ const CreateAccount: React.FC<CreateAccountProps> = () => {
 
     const userDataToSave = {
       user: {
-      id: 0,
-      is_admin: false,
-      first_name: userData.firstName,
-      last_name: userData.lastName,
-      email: userData.email,
-      pwd: userData.pwd,
-      phone_number: userData.phoneNumber,
-      origin: userData.origin,
-      account_number: userData.accountNumber,
-      balance: parseFloat(userData.balance),
-      status: true,
-      created_at: new Date().toISOString,
-      updated_at: new Date().toISOString
+        id: 0,
+        is_admin: false,
+        first_name: userData.firstName,
+        last_name: userData.lastName,
+        email: userData.email,
+        pwd: userData.pwd,
+        phone_number: userData.phoneNumber,
+        origin: userData.origin,
+        account_number: userData.accountNumber,
+        alance: parseFloat(userData.balance),
+        status: true,
+        created_at: new Date().toISOString,
+        updated_at: new Date().toISOString
       }
     };
     
