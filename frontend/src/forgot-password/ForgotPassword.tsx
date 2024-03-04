@@ -4,17 +4,19 @@ import { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState<string | undefined>();
+  const [email, setEmail] = useState<string>('');
   const navigate = useNavigate();
 
+
+
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    try {
-      await invoke('send_verification_code', { email });
-      navigate('/verify-code', { state: { email } });
-    } catch (error) {
-      console.error('Ts failed to send verification code', error)
-    }
+    // event.preventDefault();
+    // try {
+    //   await invoke('send_verification_code', { email });
+    //   navigate('verify-code/', { state: { email } });
+    // } catch (error) {
+    //   console.error('Ts failed to send verification code', error)
+    // }
     
   };
 
@@ -31,6 +33,7 @@ const ForgotPassword = () => {
         required
       />
     <button>Submit</button>
+    <button onClick={() => navigate('verify-code/')}>Go to Verify Code</button>
     </form>
     </div>
   );

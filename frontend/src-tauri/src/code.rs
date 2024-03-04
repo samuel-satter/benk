@@ -1,6 +1,7 @@
 use std::env;
 
 use reqwest::Client;
+use sendgrid::{v3::{Content, Email, Message}, Destination, Mail, SGClient};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use uuid::Uuid;
@@ -65,32 +66,30 @@ pub async fn send_verification_code(email: String) -> Result<(), BoxError> {
 
     send_email(&email, &verification_code).await?;
 
-    Ok(())
+    Ok(()) 
 }
 
 async fn send_email(email: &str, verification_code: &str) -> Result<(), BoxError> {
-    let client = Client::new();
-    let api_url = "https://api.testmail.app/v1/email";
-    let token = env::var("TESTMAIL_APP_TOKEN").expect("TESTMAIL_APP_TOKEN must be set");
+    let api_key = dotenv::var("SG_MAIL_TOKEN").expect("Environment token must be set");
+    let subject = "Password Reset Verification Code";
+    let text = format!("Your verification code is: {}", verification_code);
+    let body = format!("<p>{}</p>", text);
 
-    let headers = {
-        let mut headers = reqwest::header::HeaderMap::new();
-        headers.insert("Authorization", format!("Bearer {}", token).parse().unwrap());
-        headers.insert("Content-Type", "application/json".parse().unwrap());
-        headers
-    };
+    let mail = Mail::new()
+    .add_from("benk.app@outlook.com")
+        .add_from_name("benk")
+        .add_to(Destination {
+            address: email,
+            name: "", 
+        })
+        .add_subject(subject)
+        .add_text(&text)
+        .add_html(&body);
 
-    let body = json!({
-        "to": email,
-        "subject": "Password Reset Verification Code",
-        "text": format!("Your verification code is: {}", verification_code)
-    });
+    let client = SGClient::new(api_key);
 
-    let response = client.post(api_url)
-        .headers(headers)
-        .json(&body)
-        .send()
-        .await;
+    let response = client.send(mail).await;
+
     match response {
         Ok(resp) => {
             if resp.status().is_success() {

@@ -17,6 +17,7 @@ const VerifyCode = () => {
   useEffect(() => {
     if (location.state) {
       setEmail(location.state.email);
+      console.log('Email from state:', location.state.email);
     }
   }, [location]);
 

@@ -9,6 +9,7 @@ import com.example.benk.repository.VerificationRepository;
 import com.example.benk.service.UserService;
 
 import com.example.benk.service.VerificationCodeService;
+import com.example.benk.service.VerificationCodeServiceImpl;
 import jakarta.persistence.NamedStoredProcedureQueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,16 +26,17 @@ public class UserController {
     private final UserRepository userRepository;
     private final VerificationRepository verificationRepository;
     private final UserService userService;
-    private final VerificationCodeService verificationService;
+
+    private final VerificationCodeServiceImpl verificationCodeService;
 
     @Autowired
     UserController(UserRepository userRepository,
     UserService userService,
-    VerificationCodeService verificationService,
+    VerificationCodeServiceImpl verificationCodeService,
     VerificationRepository verificationRepository) {
         this.userRepository = userRepository;
         this.userService = userService;
-        this.verificationService = verificationService;
+        this.verificationCodeService = verificationCodeService;
         this.verificationRepository = verificationRepository;
     }
 
@@ -80,13 +82,13 @@ public class UserController {
     public ResponseEntity<?> requestVerificationCode(@RequestBody VerificationCodeRequest request) {
         String email = request.email();
         String code = request.email();
-        verificationService.saveVerificationCode(email, code);
+        verificationCodeService.saveVerificationCode(email, code);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/verify-code")
     public ResponseEntity<?> verifyCode(@RequestBody VerificationCodeRequest request) {
-        boolean isValid = verificationService.verifyCode(request.email(), request.code());
+        boolean isValid = verificationCodeService.verifyCode(request.email(), request.code());
         if (isValid) {
             return ResponseEntity.ok().build();
         } else {

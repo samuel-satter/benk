@@ -23,6 +23,7 @@ tauri-plugin-log = { git = "https://github.com/tauri-apps/plugins-workspace", br
 rand = "0.8.5"
 uuid = "1.7.0"
 dotenv = "0.15.0"
+sendgrid = "0.20.1"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

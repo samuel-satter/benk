@@ -19,6 +19,7 @@ fn greet(name: &str) -> String {
 }
 
 fn main() {
+    dotenv::dotenv().ok();
     tauri::Builder::default()
     .plugin(tauri_plugin_log::Builder::default().targets([
         LogTarget::LogDir,
