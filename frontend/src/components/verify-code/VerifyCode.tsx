@@ -2,6 +2,8 @@ import { invoke } from '@tauri-apps/api/tauri';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+
+
 interface VerifyCodeResponse {
   success: boolean;
   message: string;
@@ -17,7 +19,7 @@ const VerifyCode = () => {
   useEffect(() => {
     if (location.state) {
       setEmail(location.state.email);
-      console.log('Email from state:', location.state.email);
+      (window as any).__TAURI__.invoke('log', `Email from state: ${location.state.email}`)
     }
   }, [location]);
 

@@ -18,6 +18,11 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
+#[tauri::command]
+fn log(message: String) {
+    print!("{}", message);
+}
+
 fn main() {
     dotenv::dotenv().ok();
     tauri::Builder::default()
@@ -27,6 +32,7 @@ fn main() {
         LogTarget::Webview,
     ]).build())
         .invoke_handler(tauri::generate_handler![
+            log,
             greet,
             get_all_users,
             get_user,

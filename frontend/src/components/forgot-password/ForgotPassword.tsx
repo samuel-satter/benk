@@ -10,14 +10,13 @@ const ForgotPassword = () => {
 
 
   const handleSubmit = async (event: React.FormEvent) => {
-    // event.preventDefault();
-    // try {
-    //   await invoke('send_verification_code', { email });
-    //   navigate('verify-code/', { state: { email } });
-    // } catch (error) {
-    //   console.error('Ts failed to send verification code', error)
-    // }
-    
+    event.preventDefault();
+    try {
+      await invoke('send_verification_code', { email });
+      navigate('verify-code/', { state: { email } });
+    } catch (error) {
+      console.error('Ts failed to send verification code', error)
+    }
   };
 
   return (
@@ -33,10 +32,10 @@ const ForgotPassword = () => {
         required
       />
     <button>Submit</button>
-    <button onClick={() => navigate('verify-code/')}>Go to Verify Code</button>
     </form>
+     <button onClick={() => navigate('verify-code/')}>Go to Verify Code!</button>
     </div>
   );
 };
 
-export default ForgotPassword
+export default ForgotPassword;

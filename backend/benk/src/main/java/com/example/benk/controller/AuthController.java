@@ -24,7 +24,7 @@ public AuthController(UserService userService) {
 public ResponseEntity<String> authenticateUser(@RequestBody LoginDTO loginDTO) {
     boolean isAuthenticated = userService.authenticateUser(loginDTO);
 
-    if (isAuthenticated) {
+    if (!isAuthenticated) {
         String token = userService.generateToken(loginDTO.getEmail());
         return new ResponseEntity<>(token, HttpStatus.OK);
     } else {
