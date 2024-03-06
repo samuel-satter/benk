@@ -1,16 +1,15 @@
 package com.example.benk.controller;
 
+import com.example.benk.dto.AddFundsRequestDTO;
 import com.example.benk.dto.VerificationCodeRequest;
+import com.example.benk.dto.WithdrawalRequestDTO;
 import com.example.benk.entity.User;
-import com.example.benk.entity.VerificationCode;
 import com.example.benk.exception.UserNotFoundException;
 import com.example.benk.repository.UserRepository;
 import com.example.benk.repository.VerificationRepository;
 import com.example.benk.service.UserService;
 
-import com.example.benk.service.VerificationCodeService;
 import com.example.benk.service.VerificationCodeServiceImpl;
-import jakarta.persistence.NamedStoredProcedureQueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,20 +23,16 @@ import java.util.Optional;
 public class UserController {
 
     private final UserRepository userRepository;
-    private final VerificationRepository verificationRepository;
     private final UserService userService;
-
     private final VerificationCodeServiceImpl verificationCodeService;
 
     @Autowired
     UserController(UserRepository userRepository,
     UserService userService,
-    VerificationCodeServiceImpl verificationCodeService,
-    VerificationRepository verificationRepository) {
+    VerificationCodeServiceImpl verificationCodeService) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.verificationCodeService = verificationCodeService;
-        this.verificationRepository = verificationRepository;
     }
 
     @GetMapping("/findAll")
@@ -94,5 +89,17 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid or expired code");
         }
-    }    
+    }
+    
+    @PostMapping("/withdraw-funds")
+    public ResponseEntity<?> withdrawFunds(@RequestBody WithdrawalRequestDTO request) {
+        User updatedUser = userService.withdrawFromBalance(request.getId(), request.getAmount());
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @PostMapping("/add-funds")
+    public ResponseEntity<?> addFunds(@RequestBody AddFundsRequestDTO request) {
+        User updatedUser = userService.addFunds(request.getUserId(), request.getAmount());
+        return ResponseEntity.ok(updatedUser);
+    }
 }

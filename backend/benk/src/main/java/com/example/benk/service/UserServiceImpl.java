@@ -4,6 +4,7 @@ import com.example.benk.dto.AccountInfoDTO;
 import com.example.benk.dto.LoginDTO;
 import com.example.benk.dto.ResponseDTO;
 import com.example.benk.dto.UserRequestDTO;
+import com.example.benk.dto.WithdrawalRequestDTO;
 import com.example.benk.entity.User;
 import com.example.benk.exception.UserNotFoundException;
 import com.example.benk.repository.UserRepository;
@@ -25,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 
@@ -184,6 +186,27 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         userRepository.save(user);
 
         return user;
+    }
+
+
+    @Override
+    public User withdrawFromBalance(Long userId, BigDecimal amount) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new UserNotFoundException("User with id " + userId + " cannot be found in database"));
+        if (user.getBalance().compareTo(amount) <= 0) {
+            throw new IllegalArgumentException("insufficient balance");
+        }
+        user.setBalance(user.getBalance().subtract(amount));
+        return userRepository.save(user);
+    }
+
+
+    @Override
+    public User addFunds(Long userId, BigDecimal amount) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new UserNotFoundException("User with id " + userId + " cannot be found in database"));
+        user.setBalance(user.getBalance().add(amount));
+        return userRepository.save(user);
     }
 
 }

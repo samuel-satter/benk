@@ -1,5 +1,7 @@
 package com.example.benk.service;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Service;
 
 import com.example.benk.dto.LoginDTO;
@@ -16,4 +18,6 @@ public interface UserService {
     Long getUserIdByEmail(String email);
     User saveUser(User user);
     User changeUserPassword(Long id, String newPwd);
+    User withdrawFromBalance(Long userId, BigDecimal amoumt);
+    User addFunds(Long userId, BigDecimal amount);
 }
