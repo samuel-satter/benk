@@ -1,9 +1,6 @@
-use std::env;
-
 use reqwest::Client;
-use sendgrid::{v3::{Content, Email, Message}, Destination, Mail, SGClient};
+use sendgrid::{Destination, Mail, SGClient};
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 use uuid::Uuid;
 
 use crate::errors::BoxError;

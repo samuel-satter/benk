@@ -16,7 +16,7 @@ struct LoginDTO {
 
 // remember to call `.manage(MyState::default())` please :praying_hands: :100: 
 #[tauri::command]
-async fn command_name(state: tauri::State<'_, MyState>) -> Result<(), String> {
+fn command_name(state: tauri::State<'_, MyState>) -> Result<(), String> {
   *state.s.lock().unwrap() = "new string".into();
   state.t.lock().unwrap().insert("key".into(), "value".into());
   Ok(())

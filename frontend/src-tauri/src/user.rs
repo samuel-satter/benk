@@ -115,7 +115,7 @@ pub async fn change_user_pwd(pwd: String, user: User) -> Result<User, BoxError> 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use mockito::{Server, Matcher};
+    use mockito::Server;
     use serde_json::json;
 
     fn setup_mock_server() -> mockito::ServerGuard {
