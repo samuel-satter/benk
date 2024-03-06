@@ -12,6 +12,9 @@ edition = "2021"
 [build-dependencies]
 tauri-build = { version = "1.5", features = [] }
 
+[dev-dependencies]
+mockito = "1.4.0"
+
 [dependencies]
 tauri = { version = "1.5", features = [ "api-all"] }
 serde = { version = "1.0", features = ["derive"] }

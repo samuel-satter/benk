@@ -102,3 +102,49 @@ async fn send_email(email: &str, verification_code: &str) -> Result<(), BoxError
         Err(e) => Err(BoxError { message: e.to_string() }),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    fn setup_mock_server() -> mockito::ServerGuard {
+        let mut server = mockito::Server::new();
+
+        let _m1 = server.mock("POST", "/user/verify-code")
+            .with_status(200)
+            .with_body(json!({ "success": true, "message": "Verification successful" }).to_string())
+            .create();
+
+        let _m2 = server.mock("POST", "/user/findByEmail")
+            .with_status(200)
+            .with_body(json!({ "success": true, "message": "Verification code saved" }).to_string())
+            .create();
+
+        server
+    }
+
+    #[tokio::test]
+    async fn test_verify_code() {
+        let mut server = setup_mock_server();
+        let email = "test@example.com".to_string();
+        let code = "123456".to_string();
+
+        let result = verify_code(email, code).await;
+        assert!(result.is_ok());
+        assert_eq!(result.unwrap().success, true);
+
+        server.mock("POST", "/user/verify-code").assert();
+    }
+
+    #[tokio::test]
+    async fn test_send_verification_code() {
+        let mut server = setup_mock_server();
+        let email = "test@example.com".to_string();
+
+        let result = send_verification_code(email).await;
+        assert!(result.is_ok());
+
+        server.mock("POST", "/user/findByEmail").assert();
+    }
+}
