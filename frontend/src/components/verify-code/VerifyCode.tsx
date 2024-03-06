@@ -23,6 +23,8 @@ const VerifyCode = () => {
     }
   }, [location]);
 
+  console.log("we are now in the verify component");
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {

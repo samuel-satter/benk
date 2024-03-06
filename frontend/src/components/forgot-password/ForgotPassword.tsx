@@ -7,16 +7,16 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState<string>('');
   const navigate = useNavigate();
 
-
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    try {
-      await invoke('send_verification_code', { email });
-      navigate('verify-code/', { state: { email } });
-    } catch (error) {
-      console.error('Ts failed to send verification code', error)
-    }
+    navigate('/verify-code')
+    console.log("hello------------------------------ we are in forgotpassword");
+    // try {
+    //   await invoke('send_verification_code', { email });
+    //   navigate('verify-code/', { state: { email } });
+    // } catch (error) {
+    //   console.error('Ts failed to send verification code', error)
+    // }
   };
 
   return (
@@ -33,7 +33,7 @@ const ForgotPassword = () => {
       />
     <button>Submit</button>
     </form>
-     <button onClick={() => navigate('verify-code/')}>Go to Verify Code!</button>
+     <button onClick={() => navigate('/verify-code')}>Go to Verify Code!</button>
     </div>
   );
 };
