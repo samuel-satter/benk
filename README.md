@@ -9,6 +9,7 @@ This project aims to create a functional but native mock bank application, its b
 * A functioning Data generation system for creating mock users with Python
 
 ## Current structure of the project
+```
 |-- backend
 |                   `-- benk
 |                   `-- src
@@ -65,6 +66,6 @@ This project aims to create a functional but native mock bank application, its b
     `-- src-tauri
         |-- icons
         `-- src
-
+```
 ## How to install/run
 to be done...
