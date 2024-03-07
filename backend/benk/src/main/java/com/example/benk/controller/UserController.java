@@ -102,4 +102,10 @@ public class UserController {
         User updatedUser = userService.addFunds(request.getUserId(), request.getAmount());
         return ResponseEntity.ok(updatedUser);
     }
+
+    @GetMapping("/get-top-users")
+    public ResponseEntity<List<User>> getTopUsers() {
+        List<User> topUsers = userService.findTopByBalance();
+        return ResponseEntity.ok(topUsers);
+    }
 }

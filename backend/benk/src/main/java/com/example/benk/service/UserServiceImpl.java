@@ -4,7 +4,6 @@ import com.example.benk.dto.AccountInfoDTO;
 import com.example.benk.dto.LoginDTO;
 import com.example.benk.dto.ResponseDTO;
 import com.example.benk.dto.UserRequestDTO;
-import com.example.benk.dto.WithdrawalRequestDTO;
 import com.example.benk.entity.User;
 import com.example.benk.exception.UserNotFoundException;
 import com.example.benk.repository.UserRepository;
@@ -14,10 +13,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,6 +35,7 @@ import java.security.Key;
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     public static final String SECRET_KEY = "jwt";
 
@@ -207,6 +210,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             .orElseThrow(() -> new UserNotFoundException("User with id " + userId + " cannot be found in database"));
         user.setBalance(user.getBalance().add(amount));
         return userRepository.save(user);
+    }
+
+    @Override
+    public List<User> findTopByBalance() {
+        logger.info("Fetching the top 7 users by balance");
+        List<User> topUsers = userRepository.findTopByBalance();
+        logger.info("Fetched {} users", topUsers.size());
+        return topUsers;  
     }
 
 }

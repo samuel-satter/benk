@@ -7,7 +7,7 @@ mod errors;
 mod code;
 
 use tauri_plugin_log::LogTarget;
-use user::{get_all_users, get_user, save_user};
+use user::{get_all_users, get_user, save_user, get_top_users};
 use login::login;
 use login::is_admin;
 use user::change_user_pwd;
@@ -41,7 +41,8 @@ fn main() {
             login,
             change_user_pwd,
             send_verification_code,
-            verify_code
+            verify_code,
+            get_top_users,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

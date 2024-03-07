@@ -15,6 +15,7 @@ import CreateAccount from "./components/create-account/CreateAccount";
 import ForgotPassword from "./components/forgot-password/ForgotPassword";
 import VerifyCode from "./components/verify-code/VerifyCode";
 import "./styles/global.scss";
+import ResetPassword from "./components/reset-password/ResetPassword";
 
 function App() {
   const Layout = () => {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/create-account" element={<CreateAccount />} />
         <Route path="/forgot-password" element={<ForgotPassword />}></Route>
         <Route path="/verify-code" element={<VerifyCode />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/admin/*" element={<Layout />}>
           <Route path="" element={<Home />} />
           <Route path="users" element={<Users />} />

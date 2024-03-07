@@ -1,6 +1,7 @@
 package com.example.benk.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -20,4 +21,5 @@ public interface UserService {
     User changeUserPassword(Long id, String newPwd);
     User withdrawFromBalance(Long userId, BigDecimal amoumt);
     User addFunds(Long userId, BigDecimal amount);
+    List<User> findTopByBalance();
 }
