@@ -220,4 +220,16 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return topUsers;  
     }
 
+
+    @Override
+    public int calculateUserGrowth() {
+        int usersThisMonth = userRepository.countUsersThisMonth();
+        int usersLastMonth = userRepository.countUsersLastMonth();
+
+        if (userRepository.countUsersLastMonth() > 0) {
+            return (usersThisMonth - usersLastMonth) * 100 / usersLastMonth;
+        }
+        return userRepository.findAll().size();
+    }
+
 }

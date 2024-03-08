@@ -135,6 +135,29 @@ pub async fn change_user_pwd(pwd: String, user: User) -> Result<User, BoxError> 
     
 }
 
+#[tauri::command]
+pub async fn get_user_growth() -> Result<i32, BoxError> {
+    let client = reqwest::Client::new();
+    let url = "http://localhost:8080/user/user-growth";
+    let response = match client.get(url).send().await {
+        Ok(resp) => resp,
+        Err(e) => return Err(BoxError { message: e.to_string() }),
+    };
+
+    if !response.status().is_success() {
+        return Err(BoxError {
+            message: "Failed to retrieve user growth".to_string(),
+        });
+    }
+
+    let growth: i32 = match response.json().await {
+        Ok(g) => g,
+        Err(e) => return Err(BoxError { message: e.to_string() }),
+    };
+
+    Ok(growth)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

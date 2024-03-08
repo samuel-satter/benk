@@ -6,7 +6,6 @@ import com.example.benk.dto.WithdrawalRequestDTO;
 import com.example.benk.entity.User;
 import com.example.benk.exception.UserNotFoundException;
 import com.example.benk.repository.UserRepository;
-import com.example.benk.repository.VerificationRepository;
 import com.example.benk.service.UserService;
 
 import com.example.benk.service.VerificationCodeServiceImpl;
@@ -107,5 +106,11 @@ public class UserController {
     public ResponseEntity<List<User>> getTopUsers() {
         List<User> topUsers = userService.findTopByBalance();
         return ResponseEntity.ok(topUsers);
+    }
+
+    @GetMapping("/user-growth")
+    public ResponseEntity<Integer> getUserGrowth() {
+        int growth = userService.calculateUserGrowth();
+        return ResponseEntity.ok(growth);
     }
 }
