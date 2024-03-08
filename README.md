@@ -40,23 +40,25 @@ This project aims to create a functional but native mock bank application, its b
     |   `-- assets
     |-- public
     |-- src
+    |   |-- account
+    |   |   |-- create-account
+    |   |   |-- forgot-password
+    |   |   |-- login
+    |   |   |-- reset-password
+    |   |   `-- verify-code
     |   |-- admin
     |   |   |-- components
+    |   |   |   |-- chartBox
     |   |   |   |-- footer
     |   |   |   |-- menu
     |   |   |   |-- navbar
+    |   |   |   |-- topBox
     |   |   |   `-- userBox
     |   |   `-- pages
     |   |       |-- finance
     |   |       |-- home
     |   |       `-- users
     |   |-- assets
-    |   |-- components
-    |   |   |-- create-account
-    |   |   |-- forgot-password
-    |   |   |-- login
-    |   |   |-- reset-password
-    |   |   `-- verify-code
     |   |-- styles
     |   `-- user
     |       |-- components
@@ -66,6 +68,7 @@ This project aims to create a functional but native mock bank application, its b
     `-- src-tauri
         |-- icons
         `-- src
+
 ```
 ## How to install/run
 to be done...
