@@ -47,7 +47,7 @@ function App() {
           <Route path="users" element={<Users />} />
           <Route path="finance" element={<Finance />} />
         </Route>
-        <Route path="/user/*" element={<Home />}></Route>
+        <Route path="/user/*" element={<Layout />}></Route>
       </Routes>
     </Router>
   );
