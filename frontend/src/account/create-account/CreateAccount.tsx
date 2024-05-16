@@ -141,7 +141,7 @@ const CreateAccount: React.FC<CreateAccountProps> = () => {
         phone_number: userData.phoneNumber,
         origin: userData.origin,
         account_number: userData.accountNumber,
-        alance: parseFloat(userData.balance),
+        balance: parseFloat(userData.balance),
         status: true,
         created_at: new Date().toISOString,
         updated_at: new Date().toISOString

@@ -1,6 +1,6 @@
 spring:
   datasource:
-    password: Toor
+    password: root
     url: jdbc:mysql://localhost:3306/benk?serverTimezone=UTC
     username: root
   security:

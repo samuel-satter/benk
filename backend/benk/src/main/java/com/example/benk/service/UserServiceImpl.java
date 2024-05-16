@@ -1,5 +1,6 @@
 package com.example.benk.service;
 
+import com.example.benk.BenkApplication;
 import com.example.benk.dto.AccountInfoDTO;
 import com.example.benk.dto.LoginDTO;
 import com.example.benk.dto.ResponseDTO;
@@ -9,6 +10,7 @@ import com.example.benk.exception.UserNotFoundException;
 import com.example.benk.repository.UserRepository;
 import com.example.benk.utils.AccountUtils;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -51,11 +53,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     
     public static final int RANGE = 8;
 
+    private final Dotenv dotenv;
+
 
     private final UserRepository userRepository;
 
     @Autowired
-    UserServiceImpl(UserRepository userRepository) {
+    UserServiceImpl(Dotenv dotenv, UserRepository userRepository) {
+        this.dotenv = dotenv;
         this.userRepository = userRepository;
     }
 
@@ -151,7 +156,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public String generateToken(String email) {
-        String secretKey = System.getenv("SECRET_KEY");
+        String secretKey = dotenv.get("SECRET_KEY");
+
         if (secretKey == null || secretKey.isEmpty()) {
             System.out.println("SECRET_KEY environment variable is not set or is empty.");
             throw new IllegalStateException("Secret key not found in environment variables");

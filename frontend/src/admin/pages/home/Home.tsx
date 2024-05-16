@@ -1,9 +1,22 @@
 import React, { useEffect, useState } from "react";
 import ChartBox from "./../../components/chartBox/ChartBox";
 import TopBox from "./../../components/topBox/TopBox";
-import { boxesData } from "../../../data";
+import { boxesData, chartBoxLoans } from "../../../data";
 import { invoke } from "@tauri-apps/api/tauri";
 import "./home.scss";
+import BigChartBox from "../../components/bigChartBox/BigChartBox";
+import PieChartBox from "../../components/pieChartBox/PieChartBox";
+
+import {
+  barChartBoxRevenue,
+  barChartBoxVisit,
+  chartBoxConversion,
+  chartBoxProduct,
+  chartBoxRevenue,
+  chartBoxUser,
+} from "../../../data";
+
+import BarChartBox from "../../components/barChartBox/BarChartBox";
 
 const Home: React.FC = () => {
   const [boxes, setBoxes] = useState(boxesData);
@@ -37,47 +50,35 @@ const Home: React.FC = () => {
         <TopBox />
       </div>
       <div className="box box2">
-        <ChartBox {...boxes[1]} />
+        <ChartBox {...chartBoxUser} />
       </div>
       <div className="box box3">
         <ChartBox
-          icon={""}
-          dataKey={""}
-          number={""}
-          percentage={0}
-          chartData={[]}
+          {...chartBoxLoans}
         />
       </div>
       <div className="box box4">
-        <ChartBox
-          icon={""}
-          dataKey={""}
-          number={""}
-          percentage={0}
-          chartData={[]}
-        />
+        <PieChartBox></PieChartBox>
       </div>
       <div className="box box5">
         <ChartBox
-          icon={""}
-          dataKey={""}
-          number={""}
-          percentage={0}
-          chartData={[]}
+          {...chartBoxConversion}
         />
       </div>
       <div className="box box6">
         <ChartBox
-          icon={""}
-          dataKey={""}
-          number={""}
-          percentage={0}
-          chartData={[]}
+          {...chartBoxRevenue}
         />
       </div>
-      <div className="box box7">box7</div>
-      <div className="box box8">box8</div>
-      <div className="box box9">box9</div>
+      <div className="box box7">
+        <BigChartBox></BigChartBox>
+      </div>
+      <div className="box box8">
+        <BarChartBox {...barChartBoxVisit}></BarChartBox>
+      </div>
+      <div className="box box9">
+        <BarChartBox {...barChartBoxRevenue}></BarChartBox>
+      </div>
     </div>
   );
 };
